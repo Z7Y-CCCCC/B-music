@@ -1,18 +1,15 @@
 <script lang="ts" setup>
 import { setContent, contentDisplay, contentData } from '@renderer/mod/content/content';
 import SearchIcon from '@renderer/components/svg/Search.vue'
-import Recommend from '../content/contents/Recommend.vue';
-import BilibiliFavorites from '../content/contents/BilibiliFavorites.vue';
-import NeteaseLiked from '../content/contents/NeteaseLiked.vue';
+import { Recommend, BilibiliFavorites, NeteaseLiked, PlayListContents } from '@renderer/mod/content/contentComponents';
 import { h, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { playListStorage, MYLIKEED_PLAYLIST_NAME } from '@renderer/storage/playListStorage';
-import PlayListContents from '../content/contents/PlayListContents.vue';
 import IcFavoriteSvg from '@renderer/components/svg/IcFavorite.vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
-import ContextMenu from '@imengyu/vue3-context-menu'
 import TrashSvg from '@renderer/components/svg/Trash.vue';
 import { closePopUpComponent, openPopUpComponent } from '@renderer/mod/popUp/popUp';
-import Confirm from '../popUp/popUps/Confirm.vue';
+import { Confirm } from '@renderer/mod/popUp/popUpComponents';
+import { showContextMenu } from '@renderer/utils/contextMenu';
 
 
 const iconMap = reactive(new Map<string, string>);
@@ -141,7 +138,7 @@ onBeforeUnmount(() => {
 // 邮件菜单
 function onContextMenu(e: MouseEvent, name: string) {
   e.preventDefault();
-  ContextMenu.showContextMenu({
+  void showContextMenu({
     x: e.x,
     y: e.y,
     minWidth: 200,

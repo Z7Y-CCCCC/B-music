@@ -1,28 +1,28 @@
-/** 处理弹出组件 */
-import { type DefineSetupFnComponent, markRaw, reactive } from "vue";
+/** 澶勭悊寮瑰嚭缁勪欢 */
+import { markRaw, reactive, type Component } from "vue";
 
-type ShowComponent<P> = DefineSetupFnComponent<any, any, any, P, any>;
-type ComponentProps<T> = T extends ShowComponent<infer P> ? P : never;
+type ShowComponent = Component;
+type PopUpData = Record<string, unknown>;
 
 let keyCount = Math.floor(Math.random() * 10000);
 
-// 弹出组件
-export const popUpComponents = reactive<{ component: ShowComponent<any>, data: any, popUpComponentKey: number }[]>([]);
+// 寮瑰嚭缁勪欢
+export const popUpComponents = reactive<{ component: ShowComponent, data: PopUpData, popUpComponentKey: number }[]>([]);
 
 /**
- * 弹出一个组件
- * @param component  组件
- * @param data  数据
+ * 寮瑰嚭涓€涓粍浠?
+ * @param component  缁勪欢
+ * @param data  鏁版嵁
  */
-export function openPopUpComponent<T extends ShowComponent<any>>(component: T, data: Omit<ComponentProps<T>, 'closePopUpSelf'>): number {
+export function openPopUpComponent(component: ShowComponent, data: PopUpData = {}): number {
     keyCount++;
     popUpComponents.push({ component: markRaw(component), data: data, popUpComponentKey: keyCount });
     return keyCount;
 }
 
 /**
- * 移除一个组件
- * @param key  组件的key
+ * 绉婚櫎涓€涓粍浠?
+ * @param key  缁勪欢鐨刱ey
  */
 export function closePopUpComponent(key: number) {
     const index = popUpComponents.findIndex(a => a.popUpComponentKey === key);

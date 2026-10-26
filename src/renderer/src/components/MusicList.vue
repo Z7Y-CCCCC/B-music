@@ -8,10 +8,10 @@ import FavoriteButton from './FavoriteButton.vue';
 import PlayerInfoTag from './PlayerInfoTag.vue';
 import ImgDiv from './ImgDiv.vue';
 import { computed, nextTick, onBeforeUnmount, h, reactive, ref, watch, type CSSProperties, type Component } from 'vue';
-import AddToPlayList from '@renderer/mod/popUp/popUps/AddToPlayList.vue';
-import ContextMenu, { type MenuItem } from '@imengyu/vue3-context-menu'
+import { AddToPlayList } from '@renderer/mod/popUp/popUpComponents';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
 import { playList } from '@renderer/mod/playingList/playingList';
+import { showContextMenu, type MenuItem } from '@renderer/utils/contextMenu';
 
 type CustomButton = {
     icon: Component,
@@ -165,7 +165,7 @@ function rightClick(event: MouseEvent, music: Music, index: number) {
         }
     }
 
-    ContextMenu.showContextMenu(reactive({
+    void showContextMenu(reactive({
         x: event.x,
         y: event.y,
         minWidth: 200,

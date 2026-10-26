@@ -8,11 +8,11 @@ import FavoriteButton from '@renderer/components/FavoriteButton.vue';
 import AddMusicCollectionSvg from '@renderer/components/svg/AddMusicCollection.vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import PlayerInfoTag from '@renderer/components/PlayerInfoTag.vue';
-import AddToPlayList from '../popUp/popUps/AddToPlayList.vue';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
+import { AddToPlayList } from '@renderer/mod/popUp/popUpComponents';
 import TrashSvg from '@renderer/components/svg/Trash.vue';
-import ContextMenu from '@imengyu/vue3-context-menu';
 import { h } from 'vue';
+import { showContextMenu } from '@renderer/utils/contextMenu';
 
 function clickItemIcon(index: number) {
     // 如果点击的不是当前的音乐，就切换音乐
@@ -31,7 +31,7 @@ function clickItemIcon(index: number) {
 function onContextMenu(e: MouseEvent, music: Music, index: number) {
     e.preventDefault();
     const isCurrentAndPlaying = index === playList.currentIndex && musicPlayer.playing;
-    ContextMenu.showContextMenu({
+    void showContextMenu({
         x: e.x,
         y: e.y,
         minWidth: 180,

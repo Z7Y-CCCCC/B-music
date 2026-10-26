@@ -2,7 +2,6 @@
 import { WebviewTag } from 'electron';
 import { computed, h, markRaw, onMounted, reactive, Ref, ref, toRef, watch } from 'vue';
 import type { MusicPlayerContrMaxDisplay, MusicPlayerTopBarDisplay, PlayerCustomButton } from '@renderer/mod/playing/playing';
-import ContextMenu from '@imengyu/vue3-context-menu'
 import BxlDevToSvg from '@renderer/components/svg/BxlDevTo.vue';
 import MousePointerSvg from '@renderer/components/svg/MousePointer.vue';
 import CopyOutlineSvg from '@renderer/components/svg/CopyOutline.vue';
@@ -14,6 +13,7 @@ import { putNotification } from '@renderer/mod/notification/notification';
 import BilibiliLikeSvg from './svg/BilibiliLikeSvg.vue';
 import CoinOperatedSvg from './svg/CoinOperatedSvg.vue';
 import OverWatchLoading from '@renderer/components/OverWatchLoading.vue';
+import { showContextMenu } from '@renderer/utils/contextMenu';
 
 const props = defineProps<{
   musicPlayerLink: MusicPlayerLink,
@@ -142,7 +142,7 @@ watch(() => bilibiliUrl.value, () => {
     style: computed(() => coinOperated.value ? "color: #fb7299" : "") as any,
     onClick: (e: MouseEvent) => {
       e.preventDefault();
-      ContextMenu.showContextMenu({
+      void showContextMenu({
         x: e.x,
         y: e.y,
         theme: "mac dark",
@@ -199,7 +199,7 @@ ipcBilibiliApi.getPreloadJsFilePath_BilibiliMusicPlayer().then((res: string) => 
 // 遮罩逻辑
 const isNotManualControl = ref(true);//是否不手动控制
 watch(musicPlayerSize, () => {
-  if (musicPlayerSize.value === 'buttom') {
+  if (musicPlayerSize.value === 'bottom') {
     isNotManualControl.value = true;
   }
 });
@@ -214,7 +214,7 @@ watch(isNotManualControl, () => {
 // 遮罩邮件菜单
 function onContextMenu(e: MouseEvent) {
   e.preventDefault();
-  ContextMenu.showContextMenu({
+  void showContextMenu({
     x: e.x,
     y: e.y,
     minWidth: 200,
@@ -275,7 +275,7 @@ onMounted(() => {
 // 控制播放器样式
 const musicPlayerContrMaxDisplay = computed<MusicPlayerContrMaxDisplay>(() => {
   let res: MusicPlayerContrMaxDisplay = {
-    type: 'fixe',
+    type: 'fixed',
     progressShow: 'top',
     isShwoNusicName: true,
     extraClass: 'bili-bili-music-player-max-extra',
@@ -303,7 +303,7 @@ musicPlayerLink.updateContrMaxDisplay(reactive({
 // topBar 样式
 const musicPlayerTopBarDisplay = computed<MusicPlayerTopBarDisplay>(() => {
   let res: MusicPlayerTopBarDisplay = {
-    type: 'fixe',
+    type: 'fixed',
     extraClass: 'bili-bili-music-player-top-extra',
   }
   if(!isNotManualControl.value){
@@ -326,7 +326,7 @@ musicPlayerLink.updateTopBarDisplay(reactive({
 <template>
   <div class="b-player" :class="[{ 'manual-control': !isNotManualControl }, musicPlayerSize]">
     <!-- b站的两根棍子 -->
-    <div v-if="musicPlayerSize == 'buttom'" style="
+    <div v-if="musicPlayerSize == 'bottom'" style="
       position: absolute;
       left: 0px;
       top: 0px;
@@ -350,7 +350,7 @@ musicPlayerLink.updateTopBarDisplay(reactive({
       :style="{ opacity: playerWebviewReady ? 1 : 0 }"
     ></webview>
     <!-- OverWatch loading overlay for mini-player -->
-    <OverWatchLoading v-if="musicPlayerSize === 'buttom'" :visible="!playerWebviewReady" />
+    <OverWatchLoading v-if="musicPlayerSize === 'bottom'" :visible="!playerWebviewReady" />
     <!-- 放大状态遮罩 -->
     <div class="player-max-mask" :class="musicPlayerContrMaxDisplay.type"
       v-if="musicPlayerSize === 'max' && isNotManualControl" @contextmenu="onContextMenu">
@@ -359,11 +359,11 @@ musicPlayerLink.updateTopBarDisplay(reactive({
 </template>
 <style scoped>
 /* 如果是缩小状态则显示小电视 */
-.b-player.buttom {
+.b-player.bottom {
   background-color: unset;
 }
 
-.b-player.buttom .b-iframe {
+.b-player.bottom .b-iframe {
   border: 0.3rem solid #fb7299;
   border-radius: 0.5rem;
   width: calc(100% - 1.1rem);
@@ -406,7 +406,7 @@ musicPlayerLink.updateTopBarDisplay(reactive({
 }
 </style>
 <style>
-.bili-bili-music-player-max-extra .player-bottom-control.max.fixe {
+.bili-bili-music-player-max-extra .player-bottom-control.max.fixed {
   backdrop-filter: blur(1px);
 }
 
@@ -416,7 +416,7 @@ musicPlayerLink.updateTopBarDisplay(reactive({
   --color-primary-button-small: #ffffff7f;
   --color-primary-button-small-hover: #ffffffa6;
   /** 底部播放器 */
-  --color-music-player-bg-fixe: #00000092;
+  --color-music-player-bg-fixed: #00000092;
 
   /* 播放器左下角按钮颜色 */
   --color-music-player-user-button: var(--color-primary-button-small);

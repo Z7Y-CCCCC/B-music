@@ -7,7 +7,7 @@ import UniversalButton from '@renderer/components/UniversalButton.vue';
 import MusicList from '@renderer/components/MusicList.vue';
 import AddMusicCollectionSvg from '@renderer/components/svg/AddMusicCollection.vue';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
-import CreatePlayList from '@renderer/mod/popUp/popUps/CreatePlayList.vue';
+import { CreatePlayList } from '@renderer/mod/popUp/popUpComponents';
 import { playList } from '@renderer/mod/playingList/playingList';
 
 const props = defineProps<{

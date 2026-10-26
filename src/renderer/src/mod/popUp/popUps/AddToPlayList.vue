@@ -6,8 +6,8 @@ import CloseSvg from '@renderer/components/svg/Close.vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import AddSvg from '@renderer/components/svg/AddSvg.vue';
 import { Music } from '@renderer/mod/playing/playing';
-import CreatePlayList from './CreatePlayList.vue';
 import { openPopUpComponent } from '../popUp';
+import { CreatePlayList } from '../popUpComponents';
 
 const props = defineProps<{
     music: Music,

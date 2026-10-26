@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
 import { musicPlayer, musicPlayerButtomWidth, musicPlayerSize, playerLeftCustomButtons } from '../playing';
-import AddToPlayList from '@renderer/mod/popUp/popUps/AddToPlayList.vue';
+import { AddToPlayList } from '@renderer/mod/popUp/popUpComponents';
 import AddMusicCollectionSvg from '@renderer/components/svg/AddMusicCollection.vue';
 
 const props = defineProps<{
@@ -40,7 +40,7 @@ const props = defineProps<{
     </div>
 </template>
 <style scoped>
-.left-control.buttom::before {
+.left-control.bottom::before {
     /* width: 9rem; */
     width: v-bind("musicPlayerButtomWidth");
 }

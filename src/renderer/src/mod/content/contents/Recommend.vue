@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import OverWatchLoading from '@renderer/components/OverWatchLoading.vue';
 import { setContent } from '@renderer/mod/content/content';
-import PlayListContentsNoLoc from './PlayListContentsNoLoc.vue';
+import { PlayListContentsNoLoc } from '@renderer/mod/content/contentComponents';
 import { playlist_detail } from '@renderer/mod/musicPlayers/emoMusicPlayer/emoApi';
 import { paresEmoMusicDataToString } from '@renderer/mod/musicPlayers/emoMusicPlayer/emoMusic';
 import type { MusicPlayListOnLoc } from '@renderer/storage/playListStorage';

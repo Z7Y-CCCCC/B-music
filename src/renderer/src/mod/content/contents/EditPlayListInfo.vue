@@ -4,13 +4,13 @@ import { ref, shallowRef, toRef, watch } from 'vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import { putNotification } from '@renderer/mod/notification/notification';
 import { setContent } from '@renderer/mod/content/content';
-import PlayListContents from './PlayListContents.vue';
+import { PlayListContents } from '@renderer/mod/content/contentComponents';
 import 'vue-cropper/dist/index.css'
 import UniversalButton from '@renderer/components/UniversalButton.vue';
 import UniversalInput from '@renderer/components/UniversalInput.vue';
 import UniversalTextarea from '@renderer/components/UniversalTextarea.vue';
-import CropperImg from '@renderer/mod/popUp/popUps/CropperImg.vue';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
+import { CropperImg } from '@renderer/mod/popUp/popUpComponents';
 
 const props = defineProps<{
     musicListName: string
@@ -134,7 +134,7 @@ function uploadAuthorIcon(event) {
                 </div>
             </div>
             <!-- 图片 -->
-            <ImgDiv class="music-icon" :src="musicListInconBlobUrl || musicPlayList?.musicListInconUrl">
+            <ImgDiv class="music-icon" :src="musicListInconBlobUrl || musicPlayList?.musicListIconUrl">
                 <label class="icon-input" for="play-list-icon-input">
                     <input type="file" accept="image/*" @change="uploadPlayListIcon" id="play-list-icon-input"
                         style="display: none;" />

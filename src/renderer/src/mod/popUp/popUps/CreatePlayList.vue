@@ -5,7 +5,7 @@ import { putNotification } from '@renderer/mod/notification/notification';
 import UniversalButton from '@renderer/components/UniversalButton.vue';
 import UniversalTextarea from '@renderer/components/UniversalTextarea.vue';
 import { setContent } from '@renderer/mod/content/content';
-import PlayListContents from '@renderer/mod/content/contents/PlayListContents.vue';
+import { PlayListContents } from '@renderer/mod/content/contentComponents';
 import { Music } from '@renderer/mod/playing/playing';
 
 

@@ -8,7 +8,7 @@ import DownSvg from '@renderer/components/svg/Down.vue';
         <div class="top-bar transition" :class="musicPlayerTopBarDisplay.extraClass"
             v-if="musicPlayerSize == 'max' && musicPlayerTopBarDisplay.type !== 'none'">
             <!-- 缩小按钮 -->
-            <div class="player-but top-bar-button" @click="musicPlayerSize = 'buttom'" title="缩小">
+            <div class="player-but top-bar-button" @click="musicPlayerSize = 'bottom'" title="缩小">
                 <DownSvg class="player-but-icon"></DownSvg>
             </div>
             <!-- 其他自定义按钮 -->

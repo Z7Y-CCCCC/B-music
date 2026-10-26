@@ -8,8 +8,8 @@ import FavoriteButton from '@renderer/components/FavoriteButton.vue';
 import AddMusicCollectionSvg from '@renderer/components/svg/AddMusicCollection.vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import PlayerInfoTag from '@renderer/components/PlayerInfoTag.vue';
-import AddToPlayList from '../popUp/popUps/AddToPlayList.vue';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
+import { AddToPlayList } from '@renderer/mod/popUp/popUpComponents';
 import { historyStorage } from '@renderer/storage/historyStorage';
 
 function clickItemIcon(index: number) {

@@ -9,7 +9,7 @@ import {
 } from '@renderer/ipcApi/ipcAccountSettings';
 import UniversalButton from '@renderer/components/UniversalButton.vue';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
-import WebviewLogin from '@renderer/mod/popUp/popUps/WebviewLogin.vue';
+import { WebviewLogin } from '@renderer/mod/popUp/popUpComponents';
 
 const accounts = ref<BMusicAccount[]>([]);
 const activeAccount = ref<BMusicAccount | null>(null);

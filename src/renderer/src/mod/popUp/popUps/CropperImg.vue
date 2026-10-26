@@ -13,8 +13,6 @@ const props = defineProps<{
     closePopUpSelf: () => void;
 }>();
 
-console.log(props);
-
 const cropper = ref();
 const editImgBlobUrl = computed(() => {
     const editImg = props.editImg;

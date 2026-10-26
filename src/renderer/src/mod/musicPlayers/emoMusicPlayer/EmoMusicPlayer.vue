@@ -4,12 +4,27 @@ import { type MusicPlayerLink } from '../musicPlayers';
 import { usePlayerLifecycle } from '../usePlayerLifecycle';
 import { EmoMusicData, paresEmoMusicData } from './emoMusic';
 import { song_url_v1, SoundQualityType, lyric } from "./emoApi";
-import colorthief from 'colorthief';
-import { parseYrc } from '@lrc-player/parse';
 
 const props = defineProps<{
     musicPlayerLink: MusicPlayerLink,
 }>();
+
+type ParseYrc = typeof import('@lrc-player/parse').parseYrc;
+type ParsedLyrics = ReturnType<ParseYrc>;
+type ColorThiefCtor = typeof import('colorthief').default;
+
+let parseYrcPromise: Promise<ParseYrc> | undefined;
+let colorThiefPromise: Promise<ColorThiefCtor> | undefined;
+
+function loadParseYrc() {
+    parseYrcPromise ??= import('@lrc-player/parse').then((module) => module.parseYrc);
+    return parseYrcPromise;
+}
+
+function loadColorThief() {
+    colorThiefPromise ??= import('colorthief').then((module) => module.default);
+    return colorThiefPromise;
+}
 
 const the_song = ref<string>('');
 const musicPlayerLink = props.musicPlayerLink;
@@ -50,7 +65,7 @@ const the_url = ref<HTMLImageElement | null>(null);
 const audio = ref<HTMLAudioElement | null>(null);
 
 musicPlayerLink.updateContrMaxDisplay({
-    type: 'fixe',
+    type: 'fixed',
     progressShow: 'top',
     isShwoNusicName: false,
     extraClass: 'emo-music-player-max-extra',
@@ -164,11 +179,18 @@ onMounted(() => {
 });
 
 // 实现背景色的渐变，必须等待图片加载完毕再调用，否则可能死循环或抛出异常锁死主线程
-const onImageLoad = () => {
+const onImageLoad = async () => {
     try {
-        if (!the_url.value) return;
-        const colorThief = new colorthief();
-        const colors = colorThief.getPalette(the_url.value, 2);
+        const imageElement = the_url.value;
+        if (!imageElement) return;
+
+        const ColorThief = await loadColorThief();
+        if (lifecycle.isDestroyed() || the_url.value !== imageElement) {
+            return;
+        }
+
+        const colorThief = new ColorThief();
+        const colors = colorThief.getPalette(imageElement, 2);
         if (colors && colors.length >= 2) {
             const [c11, c22] = colors.map((c) => `rgb(${c[0]},${c[1]},${c[2]})`);
             c1.value = c11;
@@ -185,20 +207,23 @@ musicPlayerLink.updateButtomWidth("5.5rem");
 
 //-----------------------------------歌词-----------------------------------
 // 获取歌词
-const parsedLyrics = ref<ReturnType<typeof parseYrc>>([]);
+const parsedLyrics = ref<ParsedLyrics>([]);
 
 const lyricTimeout = lifecycle.setManagedTimeout(() => {
     console.error('[EmoMusicPlayer] Timeout loading lyrics');
 }, 3000);
 
-lyric({ id: musicData.value.id }).then((res) => {
+lyric({ id: musicData.value.id }).then(async (res) => {
     lifecycle.clearManagedTimeout(lyricTimeout);
     if (lifecycle.isDestroyed()) {
         return;
     }
     if (res?.body?.lrc?.lyric) {
+        const parseYrc = await loadParseYrc();
+        if (lifecycle.isDestroyed()) {
+            return;
+        }
         parsedLyrics.value = parseYrc(res.body.lrc.lyric);
-        console.log(parsedLyrics.value);
     }
 }).catch((err) => {
     lifecycle.clearManagedTimeout(lyricTimeout);

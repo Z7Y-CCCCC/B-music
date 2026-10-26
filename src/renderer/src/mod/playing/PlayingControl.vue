@@ -10,7 +10,7 @@ import ContrRight from './unit/ContrRight.vue';
     <div class="player-bottom-control" :class="[musicPlayerSize, musicPlayerContrMaxDisplay.type]">
         <!-- 左边 -->
         <ContrLeft class="left-control player-control-grep"
-            :hideMusicName="musicPlayerSize == 'max' && !musicPlayerContrMaxDisplay.isShwoNusicName" />
+            :hideMusicName="musicPlayerSize == 'max' && !musicPlayerContrMaxDisplay.isShowMusicName" />
         <!-- 中间播放控制器 -->
         <ContrBetween class="player-control-grep"
             :hideControlLine="musicPlayerSize == 'max' && musicPlayerContrMaxDisplay.progressShow != 'center'" />
@@ -66,12 +66,12 @@ import ContrRight from './unit/ContrRight.vue';
     z-index: 0;
 }
 
-.player-bottom-control.max.fixe {
+.player-bottom-control.max.fixed {
     border-top: unset;
     position: fixed;
     bottom: 0;
     width: 100vw;
-    background-color: var(--color-music-player-bg-fixe);
+    background-color: var(--color-music-player-bg-fixed);
     z-index: 2;
 }
 </style>

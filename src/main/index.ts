@@ -85,8 +85,8 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
       webviewTag: true,
-      contextIsolation: false,
-      webSecurity: false,
+      contextIsolation: true,
+      webSecurity: true,
     }
   })
 
@@ -174,13 +174,14 @@ app.whenReady().then(async () => {
     if (cookieSaveTimeout) clearTimeout(cookieSaveTimeout);
     cookieSaveTimeout = setTimeout(async () => {
       try {
-        const cookies = await session.defaultSession.cookies.get({});
+        const allCookies = await session.defaultSession.cookies.get({});
+        const cookies = allCookies.filter(c => c.domain && (c.domain.includes('bilibili.com') || c.domain.includes('163.com')));
         const cookieJson = JSON.stringify(cookies);
         updateActiveAccountCookies(cookieJson);
       } catch (e) {
         console.error('Failed to sync cookies to DB:', e);
       }
-    }, 1000); // 1-second debounce
+    }, 3000); // 3-second debounce
   });
 
   createWindow()

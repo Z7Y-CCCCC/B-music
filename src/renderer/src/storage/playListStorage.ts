@@ -99,8 +99,8 @@ function newMusicPlayList(fromName: string) {
     const name = ref(fromName);
     let loaded = ref(false);
     let musicList = ref<MusicPlayList>();
-    let deleteed = ref(false);
-    let musicListInconUrl = ref<string>();
+    let deleted = ref(false);
+    let musicListIconUrl = ref<string>();
 
     /** 保存修改 */
     async function save() {
@@ -112,7 +112,7 @@ function newMusicPlayList(fromName: string) {
 
     async function load() {
         musicList.value = await playListStorage.readPlayList(name.value);
-        musicListInconUrl.value = await playListStorage.readPlayListIconUrl(name.value);
+        musicListIconUrl.value = await playListStorage.readPlayListIconUrl(name.value);
         loaded.value = true;
     }
 
@@ -126,13 +126,13 @@ function newMusicPlayList(fromName: string) {
     /** 修改歌单图标 */
     async function setIcon(data: Uint8Array) {
         await playListStorage.savePlayListIconUrl(name.value, data);
-        musicListInconUrl.value = await playListStorage.readPlayListIconUrl(name.value);
+        musicListIconUrl.value = await playListStorage.readPlayListIconUrl(name.value);
     }
 
     /** 删除歌单 */
     async function deleteThis() {
         await playListStorage.deletePlayList(name.value);
-        deleteed.value = true;
+        deleted.value = true;
     }
 
     //key音乐key,value音乐在列表中的索引
@@ -186,9 +186,9 @@ function newMusicPlayList(fromName: string) {
         name: readonly(name),
         loaded: readonly(loaded),
         onLoaded: load(),
-        musicListInconUrl: readonly(musicListInconUrl),
+        musicListIconUrl: readonly(musicListIconUrl),
         musicList,
-        deleteed: readonly(deleteed),
+        deleted: readonly(deleted),
         save,
         rename,
         deleteThis,
@@ -272,5 +272,4 @@ export function useLikeedPlayList() {
 }
 
 
-// @ts-ignore TODO: 调试方便，到时候删除 fix this
-window.playListStorage = playListStorage;
+

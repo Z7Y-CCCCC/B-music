@@ -1,42 +1,41 @@
-//内容，播放器的内容显示组件
+//鍐呭锛屾挱鏀惧櫒鐨勫唴瀹规樉绀虹粍浠?
 
-import { computed, type DefineSetupFnComponent, shallowRef } from "vue";
-import Recommend from "./contents/Recommend.vue";
+import { computed, shallowRef, type Component } from "vue";
+import { Recommend } from "./contentComponents";
 
-type ShowComponent<P> = DefineSetupFnComponent<any, any, any, P, any>;
+type ShowComponent = Component;
+type ContentData = Record<string, unknown>;
 /**
- * 显示组件
+ * 鏄剧ず缁勪欢
  */
 const displayAndData = shallowRef<{
-    display: ShowComponent<any>,
-    data: any
+    display: ShowComponent,
+    data: ContentData
 }>({
-    /** 显示组件 */
+    /** 鏄剧ず缁勪欢 */
     display: Recommend,
-    /** 内容数据 */
+    /** 鍐呭鏁版嵁 */
     data: {}
 });
 
 /**
- * 内容数据
+ * 鍐呭鏁版嵁
  */
 export const contentData = computed(() => displayAndData.value.data);
 
 /**
- * 内容显示组件
+ * 鍐呭鏄剧ず缁勪欢
  */
 export const contentDisplay = computed(() => displayAndData.value.display);
 
-type ComponentProps<T> = T extends ShowComponent<infer P> ? P : never;
 /**
- * 设置内容
- * @param newDisplay 新的显示组件
- * @param newData 新的数据
+ * 璁剧疆鍐呭
+ * @param newDisplay 鏂扮殑鏄剧ず缁勪欢
+ * @param newData 鏂扮殑鏁版嵁
  */
-export function setContent<T extends ShowComponent<any>>(newDisplay: T, newData: ComponentProps<T>) {
+export function setContent(newDisplay: ShowComponent, newData: ContentData = {}) {
     displayAndData.value = {
         display: newDisplay as any,
         data: newData
     };
 };
-

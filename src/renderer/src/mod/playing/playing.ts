@@ -46,7 +46,7 @@ const volume = ref(1);
 const loading = ref(true);
 
 /** 播放器尺寸 */
-export const musicPlayerSize = ref<"buttom" | "max">("buttom");
+export const musicPlayerSize = ref<"bottom" | "max">("bottom");
 
 export type CssLength = `${number}${'px' | 'rem'}` | `var(${string})`;
 /** 播放器缩小状态下的宽度 */
@@ -55,11 +55,11 @@ export const musicPlayerButtomWidth = ref<CssLength>('var(--button-player-height
 /**播放控制器放大状态显示方式 */
 export type MusicPlayerContrMaxDisplay = {
   /** relative显示在下方  none不显示 fixe浮动在下方*/
-  type: 'relative' | 'none' | 'fixe',
+  type: 'relative' | 'none' | 'fixed',
   /** 进度条位置 上面或中间或不显示 */
   progressShow: 'top' | 'center' | 'none',
   /** 是否显示音乐名称 */
-  isShwoNusicName: boolean,
+  isShowMusicName: boolean,
   /** 额外的class,可用额外的class盖颜色变量，或者一些样式，但是只建议覆盖颜色，(注意!!名称尽量复杂，避免意外的样式覆盖) */
   extraClass?: any,
 };
@@ -68,7 +68,7 @@ export function getMusicPlayerContrMaxDisplayDefault(): MusicPlayerContrMaxDispl
   return {
     type: 'relative',
     progressShow: 'center',
-    isShwoNusicName: true,
+    isShowMusicName: true,
   }
 }
 /** 播放控制器放大状态显示方式 */
@@ -78,14 +78,14 @@ export const musicPlayerContrMaxDisplay = ref<MusicPlayerContrMaxDisplay>(getMus
 /** 播放器标题栏显示方式 */
 export type MusicPlayerTopBarDisplay = {
   /** none不显示 fixe浮动在上方*/
-  type: 'none' | 'fixe',
+  type: 'none' | 'fixed',
   /** 额外的class,可用额外的class盖颜色变量，或者一些样式，但是只建议覆盖颜色，(注意!!名称尽量复杂，避免意外的样式覆盖) */
   extraClass?: any,
 };
 /** 获取播放器标题栏显示方式默认值 */
 export function getMusicPlayerTopBarDisplayDefault(): MusicPlayerTopBarDisplay {
   return {
-    type: 'fixe',
+    type: 'fixed',
   }
 }
 /** 播放器标题栏显示方式 */

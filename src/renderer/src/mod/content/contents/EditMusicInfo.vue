@@ -4,13 +4,13 @@ import { computed, ref, toRef, watch } from 'vue';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import UniversalInput from '@renderer/components/UniversalInput.vue';
 import { setContent } from '@renderer/mod/content/content';
-import PlayListContents from './PlayListContents.vue';
+import { PlayListContents } from '@renderer/mod/content/contentComponents';
 import UniversalButton from '@renderer/components/UniversalButton.vue';
 import MusicEditers from '@renderer/mod/musicPlayers/MusicEditers.vue';
 import { getMusicPlayerInfo } from '@renderer/mod/musicPlayers/musicPlayers';
 import { musicKey } from '@renderer/mod/playing/playing';
 import { openPopUpComponent } from '@renderer/mod/popUp/popUp';
-import CropperImg from '@renderer/mod/popUp/popUps/CropperImg.vue';
+import { CropperImg } from '@renderer/mod/popUp/popUpComponents';
 
 const props = defineProps<{
     /** 编辑哪个歌单 */

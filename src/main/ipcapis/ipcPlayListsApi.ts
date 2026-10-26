@@ -1,11 +1,11 @@
-import { ipcMain } from "electron";
+import { ipcMain, app } from "electron";
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "fs";
 import { join } from "path";
 import { pathToFileURL } from "url";
 
 // ipcPlayListsApi 歌单
 // 文件夹路径
-const playListPath = "./PlayLists";
+const playListPath = join(app.getPath('userData'), 'PlayLists');
 // 如果文件夹不存在就创建
 if (!existsSync(playListPath)) mkdirSync(playListPath);
 type PlayList = {

@@ -17,7 +17,7 @@ watch(musicPlayerSize, () => {
         @transitionend="transitOpen = false">
         <MusicPlayers />
         <!-- 缩小状态遮罩 -->
-        <div class="player-min-mask" @click="() => { musicPlayerSize = 'max' }" v-if="musicPlayerSize === 'buttom'"
+        <div class="player-min-mask" @click="() => { musicPlayerSize = 'max' }" v-if="musicPlayerSize === 'bottom'"
             title="放大"></div>
         <!-- TopBar -->
         <PlayerViewTopBar v-if="musicPlayerSize == 'max'" />
@@ -42,8 +42,8 @@ watch(musicPlayerSize, () => {
     /* transition: width 0.25s ease-in-out, height 0.25s ease-in-out, bottom 0.5s cubic-bezier(0, 1.1, 0, 1.13); */
 }
 
-/* 播放控制器在 fixe 和 none 时直接全屏 */
-.player.max.fixe,
+/* 播放控制器在 fixed 和 none 时直接全屏 */
+.player.max.fixed,
 .player.max.none {
     width: 100vw;
     bottom: 0;
@@ -54,7 +54,7 @@ watch(musicPlayerSize, () => {
     transition: width 0.25s ease-in-out, height 0.25s ease-in-out, bottom 0.5s cubic-bezier(0, 1.1, 0, 1.13);
 }
 
-.player.buttom {
+.player.bottom {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -66,7 +66,7 @@ watch(musicPlayerSize, () => {
             0.25s ease-in-out, height 0.25s ease-in-out, bottom 0.5s cubic-bezier(1, -0.37, 0, 1.38); */
 }
 
-.player.buttom.transit-open {
+.player.bottom.transit-open {
     transition: width 0.25s ease-in-out, height 0.25s ease-in-out, bottom 0.5s cubic-bezier(1, -0.37, 0, 1.38);
 }
 </style>

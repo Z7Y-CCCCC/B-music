@@ -6,14 +6,13 @@ import PlaySvg from '@renderer/components/svg/Play.vue';
 import SearchSvg from '@renderer/components/svg/Search.vue';
 import { playList } from '@renderer/mod/playingList/playingList';
 import EditSvg from '@renderer/components/svg/Edit.vue';
-import EditPlayListInfo from './EditPlayListInfo.vue';
+import { EditMusicInfo, EditPlayListInfo } from '@renderer/mod/content/contentComponents';
 import ImgDiv from '@renderer/components/ImgDiv.vue';
 import UniversalButton from '@renderer/components/UniversalButton.vue';
-import EditMusicInfo from './EditMusicInfo.vue';
 import MusicList from '@renderer/components/MusicList.vue';
 import { type Music } from '@renderer/mod/playing/playing';
 import { closePopUpComponent, openPopUpComponent } from '@renderer/mod/popUp/popUp';
-import Confirm from '@renderer/mod/popUp/popUps/Confirm.vue';
+import { Confirm } from '@renderer/mod/popUp/popUpComponents';
 import TrashSvg from '@renderer/components/svg/Trash.vue';
 
 const props = defineProps<{
@@ -70,7 +69,7 @@ function deleteMusic(index: number) {
                 <div class="content">
                     <!-- 图片 -->
                     <ImgDiv class="content-img"
-                        :src="musicPlayList!.musicListInconUrl || musicPlayList!.musicList?.list[0]?.iconUrl">
+                        :src="musicPlayList!.musicListIconUrl || musicPlayList!.musicList?.list[0]?.iconUrl">
                     </ImgDiv>
                     <!-- 右边内容 -->
                     <div class="content-main">

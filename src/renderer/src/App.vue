@@ -2,17 +2,51 @@
 import Nav from './mod/nav/Nav.vue';
 import Content from './mod/content/Content.vue';
 import { musicPlayer, musicPlayerSize } from './mod/playing/playing';
-import PlayingList from './mod/playingList/PlayingList.vue';
-import HistoryList from './mod/playingList/HistoryList.vue';
-import Notification from './mod/notification/Notification.vue';
 import Playing from './mod/playing/Playing.vue';
 import TopBar from './mod/topBar/TopBar.vue';
-import PopUp from './mod/popUp/PopUp.vue';
-import { onMounted, watch } from 'vue';
-import { playList } from './mod/playingList/playingList';
+import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue';
+import { playList, playListOpen, historyOpen } from './mod/playingList/playingList';
+import { notifications } from './mod/notification/notification';
+import { popUpComponents } from './mod/popUp/popUp';
 import { toggleDesktopLyrics } from './storage/lyricsStorage';
 
 const electron = window.electron;
+const AsyncPlayingList = defineAsyncComponent(() => import('./mod/playingList/PlayingList.vue'));
+const AsyncHistoryList = defineAsyncComponent(() => import('./mod/playingList/HistoryList.vue'));
+const AsyncNotification = defineAsyncComponent(() => import('./mod/notification/Notification.vue'));
+const AsyncPopUp = defineAsyncComponent(() => import('./mod/popUp/PopUp.vue'));
+
+const hasLoadedPlayListPanel = ref(false);
+const hasLoadedHistoryPanel = ref(false);
+const hasLoadedNotificationLayer = ref(false);
+const hasLoadedPopUpLayer = ref(false);
+
+const notificationCount = computed(() => Object.keys(notifications).length);
+const popUpCount = computed(() => popUpComponents.length);
+
+watch(playListOpen, (isOpen) => {
+    if (isOpen) {
+        hasLoadedPlayListPanel.value = true;
+    }
+}, { immediate: true });
+
+watch(historyOpen, (isOpen) => {
+    if (isOpen) {
+        hasLoadedHistoryPanel.value = true;
+    }
+}, { immediate: true });
+
+watch(notificationCount, (count) => {
+    if (count > 0) {
+        hasLoadedNotificationLayer.value = true;
+    }
+}, { immediate: true });
+
+watch(popUpCount, (count) => {
+    if (count > 0) {
+        hasLoadedPopUpLayer.value = true;
+    }
+}, { immediate: true });
 
 // ============ SYSTEM MEDIA CONTROLS (SMTC) ============
 // Update MediaSession metadata when current music changes
@@ -97,24 +131,24 @@ onMounted(() => {
 
 <template>
   <div class="main">
-    <!-- 音乐页面 -->
+    <!-- 闊充箰椤甸潰 -->
     <div class="main-box">
       <Nav class="nav"></Nav>
       <Content class="content"></Content>
-      <TopBar v-if="musicPlayerSize == 'buttom'" />
+      <TopBar v-if="musicPlayerSize == 'bottom'" />
     </div>
-    <!-- 下方播放器主体 -->
+    <!-- 涓嬫柟鎾斁鍣ㄤ富浣?-->
     <Playing v-if="musicPlayer.currentMusic" class="main-music-player" />
-    <!-- 右侧播放列表 -->
-    <PlayingList />
-    <!-- 右侧播放历史 -->
-    <HistoryList />
+    <!-- 鍙充晶鎾斁鍒楄〃 -->
+    <AsyncPlayingList v-if="hasLoadedPlayListPanel" />
+    <!-- 鍙充晶鎾斁鍘嗗彶 -->
+    <AsyncHistoryList v-if="hasLoadedHistoryPanel" />
 
-    <!-- 弹出组件 -->
-    <PopUp />
+    <!-- 寮瑰嚭缁勪欢 -->
+    <AsyncPopUp v-if="hasLoadedPopUpLayer" />
 
-    <!-- 消息弹出框 -->
-    <Notification />
+    <!-- 娑堟伅寮瑰嚭妗?-->
+    <AsyncNotification v-if="hasLoadedNotificationLayer" />
 
   </div>
 </template>
